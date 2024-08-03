@@ -1,5 +1,8 @@
 """
 #DOCSTRING:
+Version: 1.0
+Author: Martin Repvik Olsbø
+Date: 2024-08-03
 This module contains classes and predeffined objects that can help you style text in the console.
 
 The classes are:
@@ -65,6 +68,15 @@ class fontColor:
 	OVERRODE METHODS:
 	- __str__() -> str:
 		Returns the color code.
+	
+	# EXAMPLE:
+	```
+	red = fontColor(255, 0, 0)
+	red.testPrintColor("This text is red!")
+	print(red + "This text is also red!")
+	print("so is this!" + DEFAULT_FONT)
+	print("But this is not!")
+	```
 	"""
 	def __init__(self, r: int, g: int, b: int) -> None:
 		self.color = f"\033[38;2;{r};{g};{b}m"
@@ -98,6 +110,15 @@ class backgroundColor:
 	OVERRODE METHODS:
 	- __str__() -> str:
 		Returns the color code.
+
+	# EXAMPLE:
+	```
+	red = backgroundColor(255, 0, 0)
+	red.testPrintColor("This text is red!")
+	print(red + "This text is also red!")
+	print("so is this!" + DEFAULT_BACKGROUND)
+	print("But this is not!")
+	```
 	"""
 	def __init__(self, r: int, g: int, b: int) -> None:
 		self.color = f"\033[48;2;{r};{g};{b}m"
@@ -115,33 +136,98 @@ class backgroundColor:
 	#	return self.color + other.color
 
 
-#class colorStyle: # ?????????
-#	def __init__(self, style):
-#		self.style = f"\033[{style}m"
-#
-#	def testPrintStyle(self, string):
-#		print(self.style + string + "\033[0m")
+class colorStyle:
+	"""
+	# DOCSTRING:
+	You can use this class to define a complete print style to use when printing in the console.
 
-def setTerminalStyle(fontColor: fontColor, backgroundColor: backgroundColor) -> None:
+	FIELDS:
+	- fontColor: fontColor
+		The font color to use.
+
+	- backgroundColor: backgroundColor
+		The background color to use.
+	
+	- style: str
+		The complete style to use.
+
+	METHODS:
+	- setStyle(colorStyle: str, fontColor: fontColor, backgroundColor: fontColor) -> None:
+		Sets the style to the given color style.
+
+	OVERRODE METHODS:
+	- __str__() -> str:
+		Returns the style.
+
+	# EXAMPLE:
+	```
+	red = fontColor(255, 0, 0)
+	blue = backgroundColor(0, 0, 255)
+	redStyle = colorStyle(red, blue)
+	print(redStyle.style + "This text is red and has a blue background! And bad for your eyes!")
+	redStyle.setStyle(colorStyle.BLINK, red, blue)
+	print(redStyle.style + "This text is red and has a blue background and is blinking! And even worse for your eyes!")
+	```
+	"""
+	# FIELDS:
+	DEFAULT = "\033[0m"
+	BOLD = "\033[1m"
+	DIM = "\033[2m"
+	UNDERLINED = "\033[4m"
+	BLINK = "\033[5m"
+	REVERSE = "\033[7m"
+	HIDDEN = "\033[8m"
+	STRIKE_THROUGH = "\033[9m"
+	DOUBLE_UNDELINED = "\033[21m"
+
+
+	# CONSTRUCTOR:
+	def __init__(self, fontColor: fontColor = fontColor(204, 204, 204), backgroundColor: backgroundColor = backgroundColor(12, 12, 12)) -> None:
+		self.fontColor = fontColor
+		self.backgroundColor = backgroundColor
+		self.style = "\033[0m" + self.fontColor.color + self.backgroundColor.color
+
+
+	# METHODS:
+	def setStyle(self, colorStyle: str, fontColor: fontColor = None, backgroundColor: fontColor = None) -> None:
+		if fontColor == None:
+			fontColor = self.fontColor
+		if backgroundColor == None:
+			backgroundColor = self.backgroundColor
+		self.style = colorStyle + fontColor.color + backgroundColor.color
+
+	def __str__(self) -> str:
+		return self.fontColor.color + self.backgroundColor.color
+	
+	if __name__ == "__main__":
+		pass
+
+
+# # FUNCTIONS:
+def setTerminalStyle(style: colorStyle) -> None:
 	"""
 	# DOCSTRING:
 	Sets the font color to the given RGB values.
 
 	PARAMETERS:
-	- fontColor: fontColor
-		The font color to set.
-	- backgroundColor: backgroundColor
-		The background color to set.
+	- style: colorStyle
+		The style to set.
 
-	RETURNS:
-	- The color code.
+	# EXAMPLE:
+	```
+	red = fontColor(255, 0, 0)
+	blue = backgroundColor(0, 0, 255)
+	redStyle = colorStyle(red, blue)
+	setTerminalStyle(redStyle)
+	print("This text is red and has a blue background! And is bad for your eyes!")
+	```
 	"""
-	print(fontColor.color + backgroundColor.color, end='')
+	print(style.style, end='')
 
 
 # # PREDEFINED COLORS:
 # # FONT COLORS:
-DEFAULT_FONT = fontColor(255, 255, 255)
+DEFAULT_FONT = fontColor(204, 204, 204)
 WHITE_FONT = fontColor(255, 255, 255)
 LIGHT_WHITE_FONT = fontColor(200, 200, 200)
 BLACK_FONT = fontColor(0, 0, 0)
@@ -160,7 +246,7 @@ CYAN_FONT = fontColor(0, 255, 255)
 LIGHT_CYAN_FONT = fontColor(0, 200, 200)
 
 # # BACKGROUND COLORS:
-DEFAULT_BACKGROUND = backgroundColor(0, 0, 0)
+DEFAULT_BACKGROUND = backgroundColor(12, 12, 12)
 WHITE_BACKGROUND = backgroundColor(255, 255, 255)
 LIGHT_WHITE_BACKGROUND = backgroundColor(200, 200, 200)
 BLACK_BACKGROUND = backgroundColor(0, 0, 0)
