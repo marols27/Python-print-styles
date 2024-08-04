@@ -6,7 +6,7 @@ Using this library you can:
 - Set the font color
 - Set the background color
 
-The library is as is, so unless there are any major changes that should be done, it will remine like it is from now on.
+The library is as is, so unless there are any major changes that should be done, it will remain as it is.
 
 ## classes:
 - fontColor:
