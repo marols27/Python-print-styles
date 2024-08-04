@@ -23,7 +23,7 @@ The functions are:
 	If the fontStyle specified is RESET_ALL or "\033[0m", and the fontColor and backgroundColor are None, the terminal will be reset to default.
 
 
-The predeffined colors are:
+The predeffined settings are:
 - DEFAULT_FONT
 - WHITE_FONT
 - LIGHT_WHITE_FONT
