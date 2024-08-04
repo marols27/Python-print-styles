@@ -12,13 +12,18 @@ The classes are:
 - backgroundColor: 
 	You can use this class to define background colors to use when printing in the console.
 
+- fontStyle:
+	You can use this class to define a
+
 		
 The functions are:
-- setTerminalStyle(style: fontStyle) -> None:
-	Sets the font style to the given style.
+- setTerminalStyle(fontStyle: str = None, fontColor: fontColor = None, backgroundColor: backgroundColor = None) -> None:
+	Set the font style, font color and background color to use when printing in the console.
+	The none values will not be changed.
+	If the fontStyle specified is RESET_ALL or "\033[0m", and the fontColor and backgroundColor are None, the terminal will be reset to default.
 
 
-The predeffined styles are:
+The predeffined colors are:
 - DEFAULT_FONT
 - WHITE_FONT
 - LIGHT_WHITE_FONT
@@ -65,6 +70,7 @@ The predeffined styles are:
 - STRIKE_THROUGH_STYLE
 - DOUBLE_UNDELINED_STYLE
 """
+
 
 # # CLASSES:
 class fontColor:
@@ -175,7 +181,13 @@ def setTerminalStyle(fontStyle: str = None, fontColor: fontColor = None, backgro
 	print("This text is red and has a blue background! And is bad for your eyes!")
 	```
 	"""
-	print(fontStyle + fontColor + backgroundColor, end='')
+	if fontStyle is None:
+		fontStyle = ""
+	if fontColor is None:
+		fontColor = ""
+	if backgroundColor is None:
+		backgroundColor = ""
+	print(fontStyle + "" if fontColor == None else fontColor.color + "" if backgroundColor == None else backgroundColor.color, end='')
 
 
 # # PREDEFINED COLORS:
@@ -218,7 +230,6 @@ CYAN_BACKGROUND = backgroundColor(0, 255, 255)
 LIGHT_CYAN_BACKGROUND = backgroundColor(0, 200, 200)
 
 # # STYLES:
-DEFAULT_STYLE = "\033[0m"
 BRIGT_STYLE = "\033[1m"
 DIM_STYLE = "\033[2m"
 UNDERLINED_STYLE = "\033[4m"
@@ -227,6 +238,9 @@ REVERSE_STYLE = "\033[7m"
 HIDDEN_STYLE = "\033[8m"
 STRIKE_THROUGH_STYLE = "\033[9m"
 DOUBLE_UNDELINED_STYLE = "\033[21m"
+
+# # DEFAULTS:
+RESET_ALL = "\033[0m"
 
 if __name__ == "__main__":
 	pass
