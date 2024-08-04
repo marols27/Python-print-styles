@@ -1,54 +1,69 @@
 """
 #DOCSTRING:
-Version: 1.0
+Version: 1.1
 Author: Martin Repvik Olsbø
 Date: 2024-08-03
 This module contains classes and predeffined objects that can help you style text in the console.
 
 The classes are:
-	- fontColor: 
-		You can use this class to define font colors to use when printing in the console.
+- fontColor: 
+	You can use this class to define font colors to use when printing in the console.
 
-	- backgroundColor: 
-		You can use this class to define background colors to use when printing in the console.
+- backgroundColor: 
+	You can use this class to define background colors to use when printing in the console.
+
+		
+The functions are:
+- setTerminalStyle(style: fontStyle) -> None:
+	Sets the font style to the given style.
 
 
-The predeffined colors are:
-	- DEFAULT_FONT
-	- WHITE_FONT
-	- LIGHT_WHITE_FONT
-	- BLACK_FONT
-	- LIGHT_BLACK_FONT
-	- RED_FONT
-	- LIGHT_RED_FONT
-	- GREEN_FONT
-	- LIGHT_GREEN_FONT
-	- YELLOW_FONT
-	- LIGHT_YELLOW_FONT
-	- BLUE_FONT
-	- LIGHT_BLUE_FONT
-	- MAGENTA_FONT
-	- LIGHT_MAGENTA_FONT
-	- CYAN_FONT
-	- LIGHT_CYAN_FONT
+The predeffined styles are:
+- DEFAULT_FONT
+- WHITE_FONT
+- LIGHT_WHITE_FONT
+- BLACK_FONT
+- LIGHT_BLACK_FONT
+- RED_FONT
+- LIGHT_RED_FONT
+- GREEN_FONT
+- LIGHT_GREEN_FONT
+- YELLOW_FONT
+- LIGHT_YELLOW_FONT
+- BLUE_FONT
+- LIGHT_BLUE_FONT
+- MAGENTA_FONT
+- LIGHT_MAGENTA_FONT
+- CYAN_FONT
+- LIGHT_CYAN_FONT
 
-	- DEFAULT_BACKGROUND
-	- WHITE_BACKGROUND
-	- LIGHT_WHITE_BACKGROUND
-	- BLACK_BACKGROUND
-	- LIGHT_BLACK_BACKGROUND
-	- RED_BACKGROUND
-	- LIGHT_RED_BACKGROUND
-	- GREEN_BACKGROUND
-	- LIGHT_GREEN_BACKGROUND
-	- YELLOW_BACKGROUND
-	- LIGHT_YELLOW_BACKGROUND
-	- BLUE_BACKGROUND
-	- LIGHT_BLUE_BACKGROUND
-	- MAGENTA_BACKGROUND
-	- LIGHT_MAGENTA_BACKGROUND
-	- CYAN_BACKGROUND
-	- LIGHT_CYAN_BACKGROUND
+- DEFAULT_BACKGROUND
+- WHITE_BACKGROUND
+- LIGHT_WHITE_BACKGROUND
+- BLACK_BACKGROUND
+- LIGHT_BLACK_BACKGROUND
+- RED_BACKGROUND
+- LIGHT_RED_BACKGROUND
+- GREEN_BACKGROUND
+- LIGHT_GREEN_BACKGROUND
+- YELLOW_BACKGROUND
+- LIGHT_YELLOW_BACKGROUND
+- BLUE_BACKGROUND
+- LIGHT_BLUE_BACKGROUND
+- MAGENTA_BACKGROUND
+- LIGHT_MAGENTA_BACKGROUND
+- CYAN_BACKGROUND
+- LIGHT_CYAN_BACKGROUND
+
+- DEFAULT_STYLE
+- BRIGT_STYLE
+- DIM_STYLE
+- UNDERLINED_STYLE
+- BLINK_STYLE
+- REVERSE_STYLE
+- HIDDEN_STYLE
+- STRIKE_THROUGH_STYLE
+- DOUBLE_UNDELINED_STYLE
 """
 
 # # CLASSES:
@@ -136,82 +151,20 @@ class backgroundColor:
 	#	return self.color + other.color
 
 
-class colorStyle:
-	"""
-	# DOCSTRING:
-	You can use this class to define a complete print style to use when printing in the console.
-
-	FIELDS:
-	- fontColor: fontColor
-		The font color to use.
-
-	- backgroundColor: backgroundColor
-		The background color to use.
-	
-	- style: str
-		The complete style to use.
-
-	METHODS:
-	- setStyle(colorStyle: str, fontColor: fontColor, backgroundColor: fontColor) -> None:
-		Sets the style to the given color style.
-
-	OVERRODE METHODS:
-	- __str__() -> str:
-		Returns the style.
-
-	# EXAMPLE:
-	```
-	red = fontColor(255, 0, 0)
-	blue = backgroundColor(0, 0, 255)
-	redStyle = colorStyle(red, blue)
-	print(redStyle.style + "This text is red and has a blue background! And bad for your eyes!")
-	redStyle.setStyle(colorStyle.BLINK, red, blue)
-	print(redStyle.style + "This text is red and has a blue background and is blinking! And even worse for your eyes!")
-	```
-	"""
-	# FIELDS:
-	DEFAULT = "\033[0m"
-	BOLD = "\033[1m"
-	DIM = "\033[2m"
-	UNDERLINED = "\033[4m"
-	BLINK = "\033[5m"
-	REVERSE = "\033[7m"
-	HIDDEN = "\033[8m"
-	STRIKE_THROUGH = "\033[9m"
-	DOUBLE_UNDELINED = "\033[21m"
-
-
-	# CONSTRUCTOR:
-	def __init__(self, fontColor: fontColor = fontColor(204, 204, 204), backgroundColor: backgroundColor = backgroundColor(12, 12, 12)) -> None:
-		self.fontColor = fontColor
-		self.backgroundColor = backgroundColor
-		self.style = "\033[0m" + self.fontColor.color + self.backgroundColor.color
-
-
-	# METHODS:
-	def setStyle(self, colorStyle: str, fontColor: fontColor = None, backgroundColor: fontColor = None) -> None:
-		if fontColor == None:
-			fontColor = self.fontColor
-		if backgroundColor == None:
-			backgroundColor = self.backgroundColor
-		self.style = colorStyle + fontColor.color + backgroundColor.color
-
-	def __str__(self) -> str:
-		return self.fontColor.color + self.backgroundColor.color
-	
-	if __name__ == "__main__":
-		pass
-
 
 # # FUNCTIONS:
-def setTerminalStyle(style: colorStyle) -> None:
+def setTerminalStyle(fontStyle: str = None, fontColor: fontColor = None, backgroundColor: backgroundColor = None) -> None:
 	"""
 	# DOCSTRING:
 	Sets the font color to the given RGB values.
 
 	PARAMETERS:
-	- style: colorStyle
-		The style to set.
+	- fontStyle: str = None:
+		The font style to use.
+	- fontColor: fontColor = None:
+		The font color to use.
+	- backgroundColor: backgroundColor = None:
+		The background color to use.
 
 	# EXAMPLE:
 	```
@@ -222,7 +175,7 @@ def setTerminalStyle(style: colorStyle) -> None:
 	print("This text is red and has a blue background! And is bad for your eyes!")
 	```
 	"""
-	print(style.style, end='')
+	print(fontStyle + fontColor + backgroundColor, end='')
 
 
 # # PREDEFINED COLORS:
@@ -263,6 +216,17 @@ MAGENTA_BACKGROUND = backgroundColor(255, 0, 255)
 LIGHT_MAGENTA_BACKGROUND = backgroundColor(200, 0, 200)
 CYAN_BACKGROUND = backgroundColor(0, 255, 255)
 LIGHT_CYAN_BACKGROUND = backgroundColor(0, 200, 200)
+
+# # STYLES:
+DEFAULT_STYLE = "\033[0m"
+BRIGT_STYLE = "\033[1m"
+DIM_STYLE = "\033[2m"
+UNDERLINED_STYLE = "\033[4m"
+BLINK_STYLE = "\033[5m"
+REVERSE_STYLE = "\033[7m"
+HIDDEN_STYLE = "\033[8m"
+STRIKE_THROUGH_STYLE = "\033[9m"
+DOUBLE_UNDELINED_STYLE = "\033[21m"
 
 if __name__ == "__main__":
 	pass
