@@ -154,7 +154,7 @@ Here is a list of the predeffined fontColors
 - CYAN_FONT
 - LIGHT_CYAN_FONT
 
-## Background colors:
+### Background colors:
 To specify any font color, you can do so either by using the predefined fontColors, 
 or by specifying your own by using rgb values ranging from 0 to 255.
 Use a predeffined font color:
