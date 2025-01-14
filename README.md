@@ -4,7 +4,7 @@ This is just a simple but powerfull python library to help you color and style y
 Using this library you can:
 - Set the font style
 - Set the font color
-- Set the background color
+- Set the font background color
 
 The library is as is, so unless there are any major changes that should be done, it will remain as it is.
 
