@@ -3,7 +3,7 @@
 Version: 1.1
 Author: Martin Repvik Olsbø
 Date: 2024-08-03
-This module contains classes and predeffined objects that can help you style text in the console.
+This powerfull module contains classes and predeffined objects that can help you style text in the console.
 
 The classes are:
 - fontColor: 
@@ -13,7 +13,7 @@ The classes are:
 	You can use this class to define background colors to use when printing in the console.
 
 - fontStyle:
-	You can use this class to define a
+	You can use this class to define a font style to use when printing in the console.
 
 		
 The functions are:
@@ -21,63 +21,54 @@ The functions are:
 	Set the font style, font color and background color to use when printing in the console.
 	The none values will not be changed.
 	If the fontStyle specified is RESET_ALL or "\033[0m", and the fontColor and backgroundColor are None, the terminal will be reset to default.
-
-
-The predeffined settings are:
-- DEFAULT_FONT
-- WHITE_FONT
-- LIGHT_WHITE_FONT
-- BLACK_FONT
-- LIGHT_BLACK_FONT
-- RED_FONT
-- LIGHT_RED_FONT
-- GREEN_FONT
-- LIGHT_GREEN_FONT
-- YELLOW_FONT
-- LIGHT_YELLOW_FONT
-- BLUE_FONT
-- LIGHT_BLUE_FONT
-- MAGENTA_FONT
-- LIGHT_MAGENTA_FONT
-- CYAN_FONT
-- LIGHT_CYAN_FONT
-
-- DEFAULT_BACKGROUND
-- WHITE_BACKGROUND
-- LIGHT_WHITE_BACKGROUND
-- BLACK_BACKGROUND
-- LIGHT_BLACK_BACKGROUND
-- RED_BACKGROUND
-- LIGHT_RED_BACKGROUND
-- GREEN_BACKGROUND
-- LIGHT_GREEN_BACKGROUND
-- YELLOW_BACKGROUND
-- LIGHT_YELLOW_BACKGROUND
-- BLUE_BACKGROUND
-- LIGHT_BLUE_BACKGROUND
-- MAGENTA_BACKGROUND
-- LIGHT_MAGENTA_BACKGROUND
-- CYAN_BACKGROUND
-- LIGHT_CYAN_BACKGROUND
-
-- BRIGT_STYLE
-- DIM_STYLE
-- UNDERLINED_STYLE
-- BLINK_STYLE
-- REVERSE_STYLE
-- HIDDEN_STYLE
-- STRIKE_THROUGH_STYLE
-- DOUBLE_UNDELINED_STYLE
-
-- RESET_ALL
 """
 
+# # DEFAULTS:
+RESET_ALL = "\033[0m"
 
 # # CLASSES:
 class fontColor:
 	"""
 	# DOCSTRING:
 	You can use this class to define font colors to use when printing in the console.
+
+	CONSTANTS:
+	- RESET_ALL
+		Resets all styles to default. (superior to the DEFAULT one)
+	- DEFAULT:
+		The default color.
+	- WHITE:
+		The color white.
+	- LIGHT_WHITE:
+		A lighter shade of white.
+	- BLACK:
+		The color black.
+	- LIGHT_BLACK:
+		A lighter shade of black.
+	- RED:
+		The color red.
+	- LIGHT_RED:
+		A lighter shade of red.
+	- GREEN:
+		The color green.
+	- LIGHT_GREEN:
+		A lighter shade of green.
+	- YELLOW:
+		The color yellow.
+	- LIGHT_YELLOW:
+		A lighter shade of yellow.
+	- BLUE:
+		The color blue.
+	- LIGHT_BLUE:
+		A lighter shade of blue.
+	- MAGENTA:
+		The color magenta.
+	- LIGHT_MAGENTA:
+		A lighter shade of magenta.
+	- CYAN:
+		The color cyan.
+	- LIGHT_CYAN:
+		A lighter shade of cyan.
 
 	FIELDS:
 	- color: 
@@ -96,30 +87,100 @@ class fontColor:
 	red = fontColor(255, 0, 0)
 	red.testPrintColor("This text is red!")
 	print(red + "This text is also red!")
-	print("so is this!" + DEFAULT_FONT)
-	print("But this is not!")
+	print(fontColor(0, 0, 255) + "this one is blue!")
+	print(fontColor.MAGENTA + "And this one is magenta!" + fontColor.DEFAULT) # This will reset the font color to default.
+	print("But this is normal!")
 	```
 	"""
+	DEFAULT = f"\033[38;2;{204};{204};{204}m"
+	RESET_ALL = RESET_ALL
+	WHITE = f"\033[38;2;{200};{200};{200}m"
+	LIGHT_WHITE = f"\033[38;2;{255};{255};{255}m"
+	BLACK = f"\033[38;2;{0};{0};{0}m"
+	LIGHT_BLACK = f"\033[38;2;{50};{50};{50}m"
+	RED = f"\033[38;2;{255};{0};{0}m"
+	LIGHT_RED = f"\033[38;2;{200};{0};{0}m"
+	GREEN = f"\033[38;2;{0};{255};{0}m"
+	LIGHT_GREEN = f"\033[38;2;{0};{200};{0}m"
+	YELLOW = f"\033[38;2;{255};{255};{0}m"
+	LIGHT_YELLOW = f"\033[38;2;{200};{200};{0}m"
+	BLUE = f"\033[38;2;{0};{0};{255}m"
+	LIGHT_BLUE = f"\033[38;2;{0};{0};{200}m"
+	MAGENTA = f"\033[38;2;{255};{0};{255}m"
+	LIGHT_MAGENTA = f"\033[38;2;{200};{0};{200}m"
+	CYAN = f"\033[38;2;{0};{255};{255}m"
+	LIGHT_CYAN = f"\033[38;2;{0};{200};{200}m"
+	
 	def __init__(self, r: int, g: int, b: int) -> None:
 		self.color = f"\033[38;2;{r};{g};{b}m"
 
 	def testPrintColor(self, string: str) -> None:
-		print(self.color + string + "\033[0m")
+		print(self.color + string + RESET_ALL)
 
 	def __str__(self) -> str:
 		return self.color
+
+	def __add__(self, other):
+		if isinstance(other, str):
+			return self.color + other
+		elif isinstance(other, fontColor):
+			return self.color + other.color
+		else:
+			return NotImplemented
+		
+	def __radd__(self, other):
+		if isinstance(other, str):
+			return other + self.color
+		else:
+			return NotImplemented
 	
 	if __name__ == "__main__":
 		pass
 
-	#def __add__(self, other):
-	#	return self.color + other.color
 
 
 class backgroundColor:
 	"""
 	# DOCSTRING:
 	You can use this class to define background colors to use when printing in the console.
+
+	CONSTANTS:
+	- RESET_ALL
+		Resets all styles to default. (superior to the DEFAULT one)
+	- DEFAULT:
+		The default color.
+	- WHITE:
+		The color white.
+	- LIGHT_WHITE:
+		A lighter shade of white.
+	- BLACK:
+		The color black.
+	- LIGHT_BLACK:
+		A lighter shade of black.
+	- RED:
+		The color red.
+	- LIGHT_RED:
+		A lighter shade of red.
+	- GREEN:
+		The color green.
+	- LIGHT_GREEN:
+		A lighter shade of green.
+	- YELLOW:
+		The color yellow.
+	- LIGHT_YELLOW:
+		A lighter shade of yellow.
+	- BLUE:
+		The color blue.
+	- LIGHT_BLUE:
+		A lighter shade of blue.
+	- MAGENTA:
+		The color magenta.
+	- LIGHT_MAGENTA:
+		A lighter shade of magenta.
+	- CYAN:
+		The color cyan.
+	- LIGHT_CYAN:
+		A lighter shade of cyan.
 
 	FIELDS:
 	- color: 
@@ -136,27 +197,110 @@ class backgroundColor:
 	# EXAMPLE:
 	```
 	red = backgroundColor(255, 0, 0)
-	red.testPrintColor("This text is red!")
-	print(red + "This text is also red!")
-	print("so is this!" + DEFAULT_BACKGROUND)
+	red.testPrintColor("This text has a red background!")
+	print(red + "This text also has a red background!" + backgroundColor.DEFAULT) # This will reset the background color to default, for some reason i could not figure out it had to be here aswell as on the next one.
+	print(backgroundColor(0, 0, 255) + "This one has a blue one!" + backgroundColor.DEFAULT)
+	print(backgroundColor.MAGENTA + "And this one is magenta!" + backgroundColor.DEFAULT)
 	print("But this is not!")
 	```
 	"""
+	
+	RESET_ALL = RESET_ALL
+	DEFAULT = f"\033[48;2;{12};{12};{12}m"
+	WHITE = f"\033[48;2;{200};{200};{200}m"
+	LIGHT_WHITE = f"\033[48;2;{255};{255};{255}m"
+	BLACK = f"\033[48;2;{0};{0};{0}m"
+	LIGHT_BLACK = f"\033[48;2;{50};{50};{50}m"
+	RED = f"\033[48;2;{255};{0};{0}m"
+	LIGHT_RED = f"\033[48;2;{200};{0};{0}m"
+	GREEN = f"\033[48;2;{0};{255};{0}m"
+	LIGHT_GREEN = f"\033[48;2;{0};{200};{0}m"
+	YELLOW = f"\033[48;2;{255};{255};{0}m"
+	LIGHT_YELLOW = f"\033[48;2;{200};{200};{0}m"
+	BLUE = f"\033[48;2;{0};{0};{255}m"
+	LIGHT_BLUE = f"\033[48;2;{0};{0};{200}m"
+	MAGENTA = f"\033[48;2;{255};{0};{255}m"
+	LIGHT_MAGENTA = f"\033[48;2;{200};{0};{200}m"
+	CYAN = f"\033[48;2;{0};{255};{255}m"
+	LIGHT_CYAN = f"\033[48;2;{0};{200};{200}m"
+
 	def __init__(self, r: int, g: int, b: int) -> None:
 		self.color = f"\033[48;2;{r};{g};{b}m"
 
 	def testPrintColor(self, string: str) -> None:
-		print(self.color + string + "\033[0m")
+		print(self.color + string + RESET_ALL)
 
 	def __str__(self) -> str:
 		return self.color
+
+	def __add__(self, other) -> str:
+		if isinstance(other, str):
+			return self.color + other
+		elif isinstance(other, backgroundColor):
+			return self.color + other.color
+		else:
+			return NotImplemented
+		
+	def __radd__(self, other):
+		if isinstance(other, str):
+			return other + self.color
+		else:
+			return NotImplemented
 	
 	if __name__ == "__main__":
 		pass
 
-	#def __add__(self, other) -> str:
-	#	return self.color + other.color
 
+
+class fontStyles:
+	"""
+	# DOCSTRING:
+	You can use this class to define font styles to use when printing in the console.
+	
+	NOTE:\n
+	Not all styles are supported by all terminals\n
+	and some styles may not work as intended.\n
+	I did not test all styles on all terminals, so you may have to test it yourself.
+
+	CONSTANTS:
+	- BRIGT:
+		Font is brigter.
+	- DIM:
+		Font is dim.
+	- UNDERLINED:
+		Font is underlined.
+	- BLINK:
+		Font is blinking.
+	- REVERSE:
+		Font is reversed.
+	- HIDDEN:
+		Font is hidden.
+	- STRIKE_THROUGH:
+		Font has a strike through.
+	- DOUBLE_UNDERLINED:
+		Font is double underlined.
+
+	# EXAMPLE:
+	```
+	styler = fontStyle()
+	print(styler.UNDERLINED + "This text has an underline!" + RESET_ALL)
+	```
+	"""
+
+	BRIGT = "\033[1m"
+	DIM = "\033[2m"
+	UNDERLINED = "\033[4m"
+	BLINK = "\033[5m"
+	REVERSE = "\033[7m"
+	HIDDEN = "\033[8m"
+	STRIKE_THROUGH = "\033[9m"
+	DOUBLE_UNDERLINED = "\033[21m"
+
+	def __init__(self) -> None:
+		pass
+	
+	if __name__ == "__main__":
+		pass
 
 
 # # FUNCTIONS:
@@ -190,58 +334,14 @@ def setTerminalStyle(fontStyle: str = None, fontColor: fontColor = None, backgro
 		backgroundColor = ""
 	print(fontStyle + "" if fontColor == None else fontColor.color + "" if backgroundColor == None else backgroundColor.color, end='')
 
+def resetTerminalStyle() -> None:
+	"""
+	# DOCSTRING:
+	Resets the terminal style to default.
+	"""
+	print(RESET_ALL)
 
-# # PREDEFINED COLORS:
-# # FONT COLORS:
-DEFAULT_FONT = fontColor(204, 204, 204)
-WHITE_FONT = fontColor(255, 255, 255)
-LIGHT_WHITE_FONT = fontColor(200, 200, 200)
-BLACK_FONT = fontColor(0, 0, 0)
-LIGHT_BLACK_FONT = fontColor(50, 50, 50)
-RED_FONT = fontColor(255, 0, 0)
-LIGHT_RED_FONT = fontColor(200, 0, 0)
-GREEN_FONT = fontColor(0, 255, 0)
-LIGHT_GREEN_FONT = fontColor(0, 200, 0)
-YELLOW_FONT = fontColor(255, 255, 0)
-LIGHT_YELLOW_FONT = fontColor(200, 200, 0)
-BLUE_FONT = fontColor(0, 0, 255)
-LIGHT_BLUE_FONT = fontColor(0, 0, 200)
-MAGENTA_FONT = fontColor(255, 0, 255)
-LIGHT_MAGENTA_FONT = fontColor(200, 0, 200)
-CYAN_FONT = fontColor(0, 255, 255)
-LIGHT_CYAN_FONT = fontColor(0, 200, 200)
 
-# # BACKGROUND COLORS:
-DEFAULT_BACKGROUND = backgroundColor(12, 12, 12)
-WHITE_BACKGROUND = backgroundColor(255, 255, 255)
-LIGHT_WHITE_BACKGROUND = backgroundColor(200, 200, 200)
-BLACK_BACKGROUND = backgroundColor(0, 0, 0)
-LIGHT_BLACK_BACKGROUND = backgroundColor(50, 50, 50)
-RED_BACKGROUND = backgroundColor(255, 0, 0)
-LIGHT_RED_BACKGROUND = backgroundColor(200, 0, 0)
-GREEN_BACKGROUND = backgroundColor(0, 255, 0)
-LIGHT_GREEN_BACKGROUND = backgroundColor(0, 200, 0)
-YELLOW_BACKGROUND = backgroundColor(255, 255, 0)
-LIGHT_YELLOW_BACKGROUND = backgroundColor(200, 200, 0)
-BLUE_BACKGROUND = backgroundColor(0, 0, 255)
-LIGHT_BLUE_BACKGROUND = backgroundColor(0, 0, 200)
-MAGENTA_BACKGROUND = backgroundColor(255, 0, 255)
-LIGHT_MAGENTA_BACKGROUND = backgroundColor(200, 0, 200)
-CYAN_BACKGROUND = backgroundColor(0, 255, 255)
-LIGHT_CYAN_BACKGROUND = backgroundColor(0, 200, 200)
-
-# # STYLES:
-BRIGT_STYLE = "\033[1m"
-DIM_STYLE = "\033[2m"
-UNDERLINED_STYLE = "\033[4m"
-BLINK_STYLE = "\033[5m"
-REVERSE_STYLE = "\033[7m"
-HIDDEN_STYLE = "\033[8m"
-STRIKE_THROUGH_STYLE = "\033[9m"
-DOUBLE_UNDELINED_STYLE = "\033[21m"
-
-# # DEFAULTS:
-RESET_ALL = "\033[0m"
 
 if __name__ == "__main__":
 	pass
