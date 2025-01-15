@@ -8,6 +8,16 @@ Using this library you can:
 
 The library is as is, so unless there are any major changes that should be done, it will remain as it is.
 
+NOTE:
+The README will not be updated as frequently as the code it self, and i wont guarantee any updates either. 
+But if i do some updates i will try to update at least the dock strings so that you can easier see examples and details for easier use.
+
+## for your own use
+Hello! Great to see that you are interested in my color paletes!
+Unfortunatly i dont know how to provide you with propper downloads yet (sorry), 
+BUT you can simply just copy and paste the code from the [printStyles.py](https://github.com/marols27/Python-print-styles/blob/main/printStyes.py) file, 
+and paste it in to your own whateverTheName.py file and just import from there.
+
 ## classes:
 - fontColor:
     - Constructor: __init__(r, g, b)
